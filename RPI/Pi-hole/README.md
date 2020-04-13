@@ -1,3 +1,4 @@
-Pi-Hole resources 
+Pi-Hole resources
+https://pi-hole.net/
 
-![https://pi-hole.net](pi-hole.png)
+![](pi-hole.png)

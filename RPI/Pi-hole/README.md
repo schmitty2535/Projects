@@ -1,5 +1,5 @@
-https://github.com/pi-hole/pi-hole/
+GitHub: https://github.com/pi-hole/pi-hole/
 
-https://pi-hole.net/
+Website: https://pi-hole.net/
 
 ![](pi-hole.png)

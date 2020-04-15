@@ -1,0 +1,113 @@
+Power on first time
+Click cancel when welcome screen is displayed
+Open the terminal
+Setup
+sudo raspi-config
+Select option 4 ‘localisation option’
+Choose geographic region
+Select time zone
+Select ‘keyboard layout’
+Change to generic 101-key PC, or another keyboard configuration
+Select defaults for following selection menus
+Select ‘Wi-Fi country’
+Choose specific country
+Select option 5 ‘interfacing options’
+Enable the following 
+Camera
+SSH
+VNC
+SPI
+I2C
+Serial
+Select option 8 ‘update’
+Exit the raspi-config menu
+sudo nano /boot/cmdline.txt   **remove console**
+Installing Node.js full
+curl -sL https://deb.nodesource.com/setup_9.x | sudo -E bash –
+sudo apt install -y nodejs
+node -v   **to check version**
+Installing Node.js for Raspberry pi Zero
+curl -o node-v9.7.1-linux-armv6l.tar.gz https://nodejs.org/dist/v9.7.1/node-v9.7.1-linux-armv6l.tar.gz
+tar -xzf node-v9.7.1-linux-armv6l.tar.gz
+sudo cp -r node-v9.7.1-linux-armv6l/* /usr/local/
+node -v 
+npm -v
+Installing Putty
+sudo apt-get install putty -y
+Installing Samba (for systems with monitor)
+sudo nano /etc/samba/smb.conf  **scroll to the bottom**
+Insert the following
+[pi]
+comment= Raspi Share
+path= /home/pi
+browseable= Yes
+writeable= Yes
+only guest= No
+create mask= 0740
+directory mask= 0750
+public= no
+
+to exit 
+ctl + X
+type letter ‘y’
+ then click enter
+ sudo apt install -y samba
+ password:  **default type ‘raspberry’**
+Using Samba on pc
+		Win key + R	\\raspberrypi\pi
+					^hostname	
+Or
+		Win key + R  	\\192.168.10.97\pi
+					^IP address
+For both	Username: pi	    Password: raspberry
+Install pm2
+Sudo npm install -g pm2
+
+
+
+
+
+Setting up Pi as an access point (servers only)
+sudo apt install dnsmasq hostapd
+sudo nano /etc/dhcpcd.conf
+insert the following 
+interface wlan0 
+static ip_address=192.168.4.1/24 
+nohook wpa_supplicant
+to exit 
+ctl + X
+type letter ‘y’
+then click enter to exit to save
+sudo systemctl restart dhcpcd
+sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
+sudo nano /etc/dnsmasq.conf
+Insert the following
+interface=wlan0
+dhcp-range=192.168.4.2,192.168.4.20,255.255.255.0,24h
+sudo systemctl reload dnsmasq
+sudo nano /etc/hostapd/hostapd.conf
+Insert the following
+interface=wlan0
+driver=nl80211
+ssid=NameOfNetwork
+hw_mode=g
+channel=7
+wmm_enabled=0
+macaddr_acl=0
+auth_algs=1
+ignore_broadcast_ssid=0
+wpa=2
+wpa_passphrase=AardvarkBadgerHedgehog
+wpa_key_mgmt=WPA-PSK
+wpa_pairwise=TKIP
+rsn_pairwise=CCMP
+sudo nano /etc/default/hostapd
+Edit this line and delete the ‘#’ at the beginning of command line 
+DAEMON_CONF="/etc/hostapd/hostapd.conf"
+sudo systemctl unmask hostapd 
+sudo systemctl enable hostapd 
+sudo systemctl start hostapd
+
+
+
+			

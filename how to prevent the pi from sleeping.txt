@@ -1,7 +1,0 @@
-how to make a pi not fall asleep
-
-	sudo nano /etc/lightdm/lightdm.conf
-
-add the following at the bottom
-
-	xserver-command=X -s 0 dpms
